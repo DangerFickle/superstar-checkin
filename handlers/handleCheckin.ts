@@ -1,11 +1,13 @@
 import handleGeoCheckin from './handleGeoCheckin'
 import handlerSimpleCheckin from './handleSimpleCheckin'
+import handleCodeCheckin from './handleCodeCheckin'
 import {error, info} from '../utils/log'
 import config from '../providers/config'
 import accountsManager from '../utils/accountsManager'
 import CheckinInfo from '../types/CheckinInfo'
+import handleNormalCheckin from "./handleNormalCheckin";
 
-export default async (aid: string | number, courseId: number, checkinInfo: CheckinInfo) => {
+export default async (aid: string, classId: string, courseId: number, checkinInfo: CheckinInfo) => {
     let res = ''
     try {
         // 将会附加到最终 QQ 群里推送的提示消息中
@@ -14,13 +16,38 @@ export default async (aid: string | number, courseId: number, checkinInfo: Check
             res += '\n' + accountMeta.name + '：'
             info('开始签到', account.username)
             let ret = ''
-            if (checkinInfo.type === 'location')
-                ret = await handleGeoCheckin(aid, courseId, accountMeta, checkinInfo.location)
-            else
-                ret = await handlerSimpleCheckin(aid, accountMeta)
+            console.log(checkinInfo)
+            switch (checkinInfo.type) {
+                case 'normal': {
+                    await handleNormalCheckin(aid, classId, courseId, accountMeta, checkinInfo)
+                    break
+                }
+                case 'gesture': {
+                    await handleCodeCheckin(aid, classId, courseId, accountMeta, checkinInfo)
+                    break
+                }
+                case 'photo': {
+                    break
+                }
+                case 'location': {
+                    // 处理位置签到
+                    ret = await handleGeoCheckin(aid, courseId, accountMeta, checkinInfo.location)
+                    break
+                }
+                case 'code': {
+                    await handleCodeCheckin(aid, classId, courseId, accountMeta, checkinInfo)
+                    break
+                }
+            }
+
+
             switch (ret) {
-                case 'success': res += '成功'; break;
-                default: res += ret; break;
+                case 'success':
+                    res += '成功';
+                    break;
+                default:
+                    res += ret;
+                    break;
             }
             info('签到结束', account.username, ret)
         }

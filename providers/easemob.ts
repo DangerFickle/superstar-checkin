@@ -1,5 +1,4 @@
 //提供学习通即时通信协议
-
 import jsdom from 'jsdom'
 
 const {JSDOM} = jsdom //在jsdom中导出JSDOM对象
@@ -20,7 +19,6 @@ const account = {
     cookie: '',
     uid: 0,
 }
-
 window.WebIM.config = {
     xmppURL: 'https://im-api-vip6-v2.easecdn.com/ws',
     apiURL: 'https://a1-vip6.easecdn.com',
@@ -63,9 +61,9 @@ window.WebIM.conn.listen({
     onClosed: function (message) {
         warn('IM 协议连接关闭')
     },
-    onTextMessage: function (message) {
-        info('IM 协议收到文本消息', JSON.stringify(message))
-        handleEasemobMessage(message, account.cookie)
+    onTextMessage: async function (message) {
+        // info('IM 协议收到文本消息', JSON.stringify(message))
+        await handleEasemobMessage(message, account.cookie)
     },
     onEmojiMessage: function (message) {
     },

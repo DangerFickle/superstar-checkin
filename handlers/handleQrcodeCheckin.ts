@@ -9,5 +9,6 @@ export default async (activeId: string, enc: string, account: AccountMetaData) =
         name: account.name,
         activeId, enc,
     })
+    console.log(`[${account.name}] 执行二维码签到->handleQrcodeCheckin.ts`)
     return await checkin(account.cookie, params)
 }

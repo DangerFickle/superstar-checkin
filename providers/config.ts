@@ -21,6 +21,10 @@ interface Config {
     ignoreCourses: number[];
     geoLocations: Array<GeoLocation>
     accounts: Array<Account>
+    pushplus: {
+        token: string;
+        url: string
+    }
 }
 
 export default YAML.parse(fs.readFileSync(process.env.CONFIG_FILE || 'config.yaml', 'utf-8')) as Config

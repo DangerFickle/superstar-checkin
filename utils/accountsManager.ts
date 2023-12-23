@@ -13,6 +13,7 @@ const loginAndSaveInfo = async (account: Account) => {
     info('正在获取 Cookie')
     const getCookieRes = await login(account.username, account.password)
     const cookie = getCookieRes.cookie
+    // 全局保存 cookie
     await accountsManager.setAccountData(account.username, 'cookie', cookie)
     success('Cookie 获取成功，正在获取用户信息')
     const userInfo = await getUserInfo(cookie)

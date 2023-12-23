@@ -7,6 +7,7 @@ import handlerQrcodeSign from './handleQrcodeCheckin'
 import accountsManager from '../utils/accountsManager'
 import getCheckinDetail from '../requests/getCheckinDetail'
 import handleCheckin from './handleCheckin'
+import CheckinInfo from "../types/CheckinInfo";
 
 export default (bot: Client) => bot.on('message.group', async data => {
     //检查来源
@@ -68,7 +69,10 @@ export default (bot: Client) => bot.on('message.group', async data => {
                 }
                 const aid = args[0]
                 const meta = await accountsManager.getAccountData(config.accounts[0].username)
-                const checkinInfo = await getCheckinDetail(meta.cookie, aid)
+
+                // const checkinInfo = await getCheckinDetail(meta.cookie, aid, courseId, classId)
+                const checkinInfo: CheckinInfo = {type: 'normal'}
+
                 if (checkinInfo.type === 'qr') {
                     if (args.length < 2) {
                         data.reply('二维码签到需要指定 enc')
@@ -92,7 +96,7 @@ export default (bot: Client) => bot.on('message.group', async data => {
                 }
                 else{
                     const courseId = args.length > 1 ? Number(args[1]) : 0
-                    data.reply(await handleCheckin(aid, courseId, checkinInfo))
+                    // data.reply(await handleCheckin(aid, classId, courseId, checkinInfo))
                 }
                 break
         }

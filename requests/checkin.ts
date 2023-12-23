@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios"
 import {MOBILE_AGENT} from '../constants'
 
 export default async function checkin(cookie: string, params: { activeId: string } & any): Promise<string> {
@@ -16,6 +16,14 @@ export default async function checkin(cookie: string, params: { activeId: string
             ut: 's',
         },
     })
+    /**
+     * TODO
+     * 签到码签到url：https://mobilelearn.chaoxing.com/v2/apis/sign/signIn?activeId=6000082715518&signCode=1234&validate=
+     *
+     * @Author DengChao
+     * @Date 2023/12/21 12:23
+     */
+    // 接口有问题
     return (await axios.get('https://mobilelearn.chaoxing.com/pptSign/stuSignajax', {
         headers: {
             Cookie: cookie,

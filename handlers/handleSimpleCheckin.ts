@@ -8,5 +8,6 @@ export default async (activeId: string | number, account: AccountMetaData) => {
         name: account.name,
         activeId,
     })
+    console.log(`[${account.name}] 执行简单签到->handleSimpleCheckin.ts`)
     return await checkin(account.cookie, params)
 }
