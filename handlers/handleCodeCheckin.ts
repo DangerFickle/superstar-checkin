@@ -7,29 +7,40 @@ import handleCheckCode from "./handleCheckCode";
 import handleAnalysis from "./handleAnalysis";
 import handleCheckIfValidate from "./handleCheckIfValidate";
 import axios from "axios";
+import {error} from "../utils/log";
 
 export default async (aid: string, classId: string, courseId: number, accountMeta: AccountMetaData, checkinInfo: CheckinInfo) => {
     const signCode = await getSignCode(aid, classId, courseId, accountMeta)
     // 预签到
-    const preSignRes = await handlePreSign(accountMeta.cookie, aid)
-    if (!preSignRes) return Error('预签到失败')
+    try {
+        await handlePreSign(accountMeta.cookie, aid)
+    } catch (e) {
+        error('预签到失败', e)
+    }
 
-    await handleAnalysis(aid, accountMeta.cookie)
+    try {
+        await handleAnalysis(aid, accountMeta.cookie)
+    } catch (e) {
+        error('handleAnalysis失败', e)
+    }
 
     // 检查签到码
-    await handleCheckCode(aid, signCode, accountMeta.cookie)
+    try {
+        await handleCheckCode(aid, signCode, accountMeta.cookie)
+    } catch (e) {
+        error('签到码无效')
+    }
 
 
     // checkIfValidate
-    // await handleCheckIfValidate(aid, accountMeta)
+    await handleCheckIfValidate(aid, accountMeta)
 
     // 开始签到
     const signCodePath = getNormalSignPath(courseId, classId, aid, signCode)
-    const res = await axios.get<string>(signCodePath, {
+    await axios.get<string>(signCodePath, {
         headers: {
             cookie: accountMeta.cookie
         }
     })
-    console.log(res.data)
-    return res.data
+    return 'success'
 }

@@ -3,7 +3,7 @@ import {MOBILE_AGENT} from '../constants'
 import CheckinDetailRet from '../types/CheckinDetailRet'
 import {error} from '../utils/log'
 import CheckinInfo from '../types/CheckinInfo'
-import handleGetLocation from "../handlers/handleGetLocation";
+import handleGetLocation from "../handlers/getLocation";
 
 /**
  * 获取签到活动详情

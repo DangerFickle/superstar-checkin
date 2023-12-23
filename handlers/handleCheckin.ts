@@ -1,5 +1,4 @@
 import handleGeoCheckin from './handleGeoCheckin'
-import handlerSimpleCheckin from './handleSimpleCheckin'
 import handleCodeCheckin from './handleCodeCheckin'
 import {error, info} from '../utils/log'
 import config from '../providers/config'
@@ -16,14 +15,13 @@ export default async (aid: string, classId: string, courseId: number, checkinInf
             res += '\n' + accountMeta.name + '：'
             info('开始签到', account.username)
             let ret = ''
-            console.log(checkinInfo)
             switch (checkinInfo.type) {
                 case 'normal': {
-                    await handleNormalCheckin(aid, classId, courseId, accountMeta, checkinInfo)
+                    ret = await handleNormalCheckin(aid, classId, courseId, accountMeta, checkinInfo)
                     break
                 }
                 case 'gesture': {
-                    await handleCodeCheckin(aid, classId, courseId, accountMeta, checkinInfo)
+                    ret = await handleCodeCheckin(aid, classId, courseId, accountMeta, checkinInfo)
                     break
                 }
                 case 'photo': {
@@ -35,7 +33,7 @@ export default async (aid: string, classId: string, courseId: number, checkinInf
                     break
                 }
                 case 'code': {
-                    await handleCodeCheckin(aid, classId, courseId, accountMeta, checkinInfo)
+                    ret = await handleCodeCheckin(aid, classId, courseId, accountMeta, checkinInfo)
                     break
                 }
             }

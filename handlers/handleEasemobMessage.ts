@@ -48,21 +48,20 @@ export default async (message: ImMessageCheckin, cookie: string) => {
                 const checkinInfo = await getCheckinDetail(cookie, aid, courseId, classId)
                 // const sleepTime = getRandomIntInclusive(20, 35)
                 const sleepTime = 4
-                console.log(checkinInfo)
-                if (checkinInfo.type !== 'qr') {
-                    // info('收到', checkinInfo.type, '类型签到，延迟时间', sleepTime, '秒')
+                if (checkinInfo.type === 'qr') {
+                    info('收到二维码签到')
+                    pushQMsg(`收到 ${courseName} 的二维码签到，aid 为 ${aid}，需要提供一张二维码`)
+                } else {
+                    info('收到', checkinInfo.type, '类型签到，延迟时间', sleepTime, '秒')
                     let messageToSend = `收到 ${courseName} 的签到\n类型：${checkinInfo.type}\naid:${aid}\n将在 ${sleepTime} 秒后自动签到`
                     if (checkinInfo.location) {
                         messageToSend += `\n这是位置范围签到\n地址：${checkinInfo.location.address}\n精度：${checkinInfo.location.range}\n经纬度：${checkinInfo.location.lon},${checkinInfo.location.lat}`
                     }
-                    // pushQMsg(messageToSend)
+                    pushQMsg(messageToSend)
                     setTimeout(async () => {
-                        // pushQMsg(await handleSign(aid, courseId, checkinInfo))
-                        console.log(await handleSign(aid, classId, courseId, checkinInfo))
+                        pushQMsg(await handleSign(aid, classId, courseId, checkinInfo))
+                        // console.log(await handleSign(aid, classId, courseId, checkinInfo))
                     }, sleepTime * 1000)
-                } else {
-                    // info('收到二维码签到')
-                    // pushQMsg(`收到 ${courseName} 的二维码签到，aid 为 ${aid}，需要提供一张二维码`)
                 }
                 break
             default:

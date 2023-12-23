@@ -15,5 +15,7 @@ export default async (cookie: string, aid: string) => {
             ut: 's',
         }
     })
-    if (!res) return Error('预签到失败')
+    if (!res) {
+        throw new Error('预签到失败')
+    }
 }

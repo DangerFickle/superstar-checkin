@@ -10,8 +10,7 @@ import axios from "axios";
 
 export default async (aid: string, classId: string, courseId: number, accountMeta: AccountMetaData, checkinInfo: CheckinInfo) => {
     // 预签到
-    const preSignRes = await handlePreSign(accountMeta.cookie, aid)
-    if (!preSignRes) return Error('预签到失败')
+    await handlePreSign(accountMeta.cookie, aid)
 
     // 开始签到
     const signCodePath = getNormalSignPath(courseId, classId, aid)
@@ -20,6 +19,8 @@ export default async (aid: string, classId: string, courseId: number, accountMet
             cookie: accountMeta.cookie
         }
     })
-    console.log(res.data)
-    return res.data
+    if (!res) {
+
+    }
+    return 'success'
 }

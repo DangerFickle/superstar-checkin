@@ -1,0 +1,18 @@
+{
+  "--begin--": "该设备为随机生成，丢失后不能得到原先配置",
+  "product": "ICQQ-980BB",
+  "device": "DA686",
+  "board": "CE4E4",
+  "brand": "95BC",
+  "model": "ICQQ B895",
+  "wifi_ssid": "HUAWEI-2b687e8",
+  "bootloader": "U-boot",
+  "display": "IC.5522224.6043",
+  "boot_id": "68412236-0de0-0312-133b-776c5dd01331",
+  "proc_version": "Linux version 5.10.101-android10-e9166e76",
+  "mac_address": "02:00:00:00:00:00",
+  "ip_address": "192.168.09.87",
+  "android_id": "685569cefd854570",
+  "incremental": "6036537625",
+  "--end--": "修改后可能需要重新验证设备。"
+}

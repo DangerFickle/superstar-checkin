@@ -201,6 +201,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.1.2":
+  version: 1.6.2
+  resolution: "axios@npm:1.6.2"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 4a7429e2b784be0f2902ca2680964391eae7236faa3967715f30ea45464b98ae3f1c6f631303b13dfe721b17126b01f486c7644b9ef276bfc63112db9fd379f8
+  languageName: node
+  linkType: hard
+
 "boolbase@npm:^1.0.0":
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
@@ -340,10 +351,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-format@npm:^4.0.13":
-  version: 4.0.13
-  resolution: "date-format@npm:4.0.13"
-  checksum: b4584fdd43d31e9c900da775cce4806903ba207e21f79d99959858141849d41ec919f941d1fb2e4efd2355ce1909ca1fe41a5184568c74cb540cf24c4f8bb39b
+"date-format@npm:^4.0.14":
+  version: 4.0.14
+  resolution: "date-format@npm:4.0.14"
+  checksum: dfe5139df6af5759b9dd3c007b899b3f60d45a9240ffeee6314ab74e6ab52e9b519a44ccf285888bdd6b626c66ee9b4c8a523075fa1140617b5beb1cbb9b18d1
   languageName: node
   linkType: hard
 
@@ -516,10 +527,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flatted@npm:^3.2.6":
-  version: 3.2.7
-  resolution: "flatted@npm:3.2.7"
-  checksum: 427633049d55bdb80201c68f7eb1cbd533e03eac541f97d3aecab8c5526f12a20ccecaeede08b57503e772c769e7f8680b37e8d482d1e5f8d7e2194687f9ea35
+"flatted@npm:^3.2.7":
+  version: 3.2.9
+  resolution: "flatted@npm:3.2.9"
+  checksum: f14167fbe26a9d20f6fca8d998e8f1f41df72c8e81f9f2c9d61ed2bea058248f5e1cbd05e7f88c0e5087a6a0b822a1e5e2b446e879f3cfbe0b07ba2d7f80b026
   languageName: node
   linkType: hard
 
@@ -530,6 +541,16 @@ __metadata:
     debug:
       optional: true
   checksum: faa66059b66358ba65c234c2f2a37fcec029dc22775f35d9ad6abac56003268baf41e55f9ee645957b32c7d9f62baf1f0b906e68267276f54ec4b4c597c2b190
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.0":
+  version: 1.15.3
+  resolution: "follow-redirects@npm:1.15.3"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 584da22ec5420c837bd096559ebfb8fe69d82512d5585004e36a3b4a6ef6d5905780e0c74508c7b72f907d1fa2b7bd339e613859e9c304d0dc96af2027fd0231
   languageName: node
   linkType: hard
 
@@ -574,9 +595,9 @@ __metadata:
   linkType: hard
 
 "graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0":
-  version: 4.2.10
-  resolution: "graceful-fs@npm:4.2.10"
-  checksum: 3f109d70ae123951905d85032ebeae3c2a5a7a997430df00ea30df0e3a6c60cf6689b109654d6fdacd28810a053348c4d14642da1d075049e6be1ba5216218da
+  version: 4.2.11
+  resolution: "graceful-fs@npm:4.2.11"
+  checksum: ac85f94da92d8eb6b7f5a8b20ce65e43d66761c55ce85ac96df6865308390da45a8d3f0296dd3a663de65d30ba497bd46c696cc1e248c72b13d6d567138a4fc7
   languageName: node
   linkType: hard
 
@@ -662,6 +683,20 @@ __metadata:
   dependencies:
     safer-buffer: ">= 2.1.2 < 3"
   checksum: bd9f120f5a5b306f0bc0b9ae1edeb1577161503f5f8252a20f1a9e56ef8775c9959fd01c55f2d3a39d9a8abaf3e30c1abeb1895f367dcbbe0a8fd1c9ca01c4f6
+  languageName: node
+  linkType: hard
+
+"icqq@npm:^0.6.6":
+  version: 0.6.6
+  resolution: "icqq@npm:0.6.6"
+  dependencies:
+    axios: ^1.1.2
+    log4js: ^6.3.0
+    long: ^4.0.0
+    pngjs: ^6.0.0
+    probe-image-size: ^7.2.2
+    triptrap: ^0.0.17
+  checksum: 24a513c82c2f11948bbece29e28d2803f8e4b6bbe8a8ea4fea54b7364edbdc116e4baeae704faf667ef96f370e78957153f4ff01f8fbdba2c45b9e8332257b48
   languageName: node
   linkType: hard
 
@@ -756,15 +791,15 @@ __metadata:
   linkType: hard
 
 "log4js@npm:^6.3.0":
-  version: 6.6.1
-  resolution: "log4js@npm:6.6.1"
+  version: 6.9.1
+  resolution: "log4js@npm:6.9.1"
   dependencies:
-    date-format: ^4.0.13
+    date-format: ^4.0.14
     debug: ^4.3.4
-    flatted: ^3.2.6
+    flatted: ^3.2.7
     rfdc: ^1.3.0
-    streamroller: ^3.1.2
-  checksum: 68f29e7b8b0efa2f987e65ee122fde0bc806dd7ad20f0a9f2da316696423e42381ba348bd6e2f6a2feba042a6ed33c14955210741f47ab897b3204aba8bcd84b
+    streamroller: ^3.1.5
+  checksum: 59d98c37d4163138dab5d9b06ae26965d1353106fece143973d57b1003b3a482791aa21374fd2cca81a953b8837b2f9756ac225404e60cbfa4dd3ab59f082e2e
   languageName: node
   linkType: hard
 
@@ -862,19 +897,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oicq@git+https://github.com/Clansty/oicq#commit=6c3f34adc681e73c2511f1f49a79fb387dcd1555":
-  version: 2.3.1
-  resolution: "oicq@https://github.com/Clansty/oicq.git#commit=6c3f34adc681e73c2511f1f49a79fb387dcd1555"
-  dependencies:
-    axios: ^0.27.2
-    log4js: ^6.3.0
-    long: ^4.0.0
-    pngjs: ^6.0.0
-    probe-image-size: ^7.2.2
-  checksum: 27932ed34fc2fafd6aa6a2f7b4ed361ade6caed98b1b36c465c011f7716240c6c44bec1d8c36f52c878bc1f28df03c485236bd93932cdd462509401471b7be21
-  languageName: node
-  linkType: hard
-
 "optionator@npm:^0.8.1":
   version: 0.8.3
   resolution: "optionator@npm:0.8.3"
@@ -933,6 +955,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
+  languageName: node
+  linkType: hard
+
 "psl@npm:^1.1.33":
   version: 1.9.0
   resolution: "psl@npm:1.9.0"
@@ -976,9 +1005,9 @@ __metadata:
   linkType: hard
 
 "sax@npm:^1.2.4":
-  version: 1.2.4
-  resolution: "sax@npm:1.2.4"
-  checksum: d3df7d32b897a2c2f28e941f732c71ba90e27c24f62ee918bd4d9a8cfb3553f2f81e5493c7f0be94a11c1911b643a9108f231dd6f60df3fa9586b5d2e3e9e1fe
+  version: 1.3.0
+  resolution: "sax@npm:1.3.0"
+  checksum: 238ab3a9ba8c8f8aaf1c5ea9120386391f6ee0af52f1a6a40bbb6df78241dd05d782f2359d614ac6aae08c4c4125208b456548a6cf68625aa4fe178486e63ecd
   languageName: node
   linkType: hard
 
@@ -1007,14 +1036,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"streamroller@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "streamroller@npm:3.1.2"
+"streamroller@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "streamroller@npm:3.1.5"
   dependencies:
-    date-format: ^4.0.13
+    date-format: ^4.0.14
     debug: ^4.3.4
     fs-extra: ^8.1.0
-  checksum: 4215bf57fe80c583ba200075f9a62b9be9a3d7491201905bf7b5a09d7e87903a47f7c62b1ce0fd2161dbd497cac41068e8f48dda0f9bfceb084487de5798f043
+  checksum: c1df5612b785ffa4b6bbf16460590b62994c57265bc55a5166eebeeb0daf648e84bc52dc6d57e0cd4e5c7609bda93076753c63ff54589febd1e0b95590f0e443
   languageName: node
   linkType: hard
 
@@ -1028,9 +1057,9 @@ __metadata:
     axios-cookiejar-support: ^4.0.3
     chalk: 4
     cheerio: ^1.0.0-rc.12
+    icqq: ^0.6.6
     jsdom: ^20.0.0
     lodash: ^4.17.21
-    oicq: "git+https://github.com/Clansty/oicq#commit=6c3f34adc681e73c2511f1f49a79fb387dcd1555"
     tencentcloud-sdk-nodejs: ^4.0.421
     tough-cookie: ^4.1.2
     ts-node: ^10.9.1
@@ -1097,6 +1126,13 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
+  languageName: node
+  linkType: hard
+
+"triptrap@npm:^0.0.17":
+  version: 0.0.17
+  resolution: "triptrap@npm:0.0.17"
+  checksum: 46cb1e4ed85f8d6c2e42993e1a0c47f7d84f97101ea64a01e24882c1c65219620ae938f9b597d8ca9f8d96ddc6bf19e03849dbff131569e4eabb67ed1560e458
   languageName: node
   linkType: hard
 

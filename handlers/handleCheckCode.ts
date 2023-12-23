@@ -10,6 +10,6 @@ export default async (aid: string, signCode: string, cookie: string) => {
         }
     })
     if (!res) {
-        Error('签到码无效')
+        throw new Error('签到码无效')
     }
 }
