@@ -5,6 +5,7 @@ import GeoLocation from '../types/GeoLocation'
 
 interface Config {
     bot: {
+        disabled: boolean
         uin: number | 'disabled';
         qrlogin: boolean;
         password: string;
@@ -25,6 +26,7 @@ interface Config {
         token: string;
         url: string
     }
+    alreadySignedCount: number;
 }
 
 export default YAML.parse(fs.readFileSync(process.env.CONFIG_FILE || 'config.yaml', 'utf-8')) as Config

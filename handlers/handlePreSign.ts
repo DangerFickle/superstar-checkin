@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export default async (cookie: string, aid: string) => {
+export default async (aid: string, cookie: string,) => {
     const preSignUrl = `https://mobilelearn.chaoxing.com/newsign/preSign`
-    const res = axios.get(preSignUrl, {
+    const res = await axios.get(preSignUrl, {
         headers: {
             cookie
         },

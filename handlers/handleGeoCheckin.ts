@@ -1,4 +1,3 @@
-import {genGeoCheckinParams} from '../utils/genCheckinParams'
 import config from '../providers/config'
 import AccountMetaData from '../types/AccountMetaData'
 import GeoLocation from '../types/GeoLocation'
@@ -8,61 +7,85 @@ import {getLocationSignPath} from "../requests/URL";
 import handlePreSign from "./handlePreSign";
 import handleAnalysis from "./handleAnalysis";
 import getLocation from "./getLocation";
+import handleCheckIfValidate from "./handleCheckIfValidate";
+import {MOBILE_AGENT} from "../constants";
 
 const inferCourseGeoInfo = (geoLocations: Array<GeoLocation>, courseId: number) => {
     const weekDay = new Date().getDay()
     const locations = geoLocations.filter(e => e.courseId === courseId)
-    for (const location of locations) {
-        if (!location.onlyOnWeekdays)
-            return location
-        else if (location.onlyOnWeekdays && location.onlyOnWeekdays.includes(weekDay)) {
-            return location
+    if (locations.length !== 0) {
+        for (const location of locations) {
+            if (!location.onlyOnWeekdays)
+                return location
+            else if (location.onlyOnWeekdays && location.onlyOnWeekdays.includes(weekDay)) {
+                return location
+            }
         }
-    }
-    // 使用 fallback 位置
-    const fallback = geoLocations.find(e => e.courseId === "*")
-    if (fallback) {
-        warn(`课程 ID ${courseId} 没有设置位置信息，使用 fallback 位置`)
-        return fallback
+    } else {
+        warn(`课程 ID ${courseId} 没有设置位置信息，将使用教师指定的位置`)
     }
 }
 
-export default async (activeId: string, courseId: number, account: AccountMetaData, geoInfo?: GeoLocation) => {
+export default async (activeId: string, courseId: number, classId: string, account: AccountMetaData) => {
 
-    if (!geoInfo) {
-        geoInfo = inferCourseGeoInfo(config.geoLocations, courseId)
+    // 配置文件中配置了该课程的配置信息，就用配置文件中的，否则就用教师指定的
+    let locationInfo: GeoLocation = inferCourseGeoInfo(config.geoLocations, courseId)
+
+
+    if (!locationInfo) {
+        locationInfo = await getLocation(activeId, courseId, classId, account)
     }
-    let params
 
     // 预签到
-    await handlePreSign(account.cookie, activeId)
+    await handlePreSign(activeId, account.cookie)
 
     // 分析
     await handleAnalysis(activeId, account.cookie)
 
-    if (geoInfo) {
-        params = genGeoCheckinParams({
-            uid: account.uid,
-            name: account.name,
-            activeId,
-            latitude: geoInfo.lat,
-            longitude: geoInfo.lon,
-            address: geoInfo.address,
-        })
-        return await axios.get(getLocationSignPath(activeId, params.uid, params.address, params.lat, params.lon), {
+    // checkIfValidate
+    await handleCheckIfValidate(activeId, account)
+
+    // 位置签到需要设置 User-Agent 为手机端的， 否则签到失败
+    if (locationInfo) {
+        console.warn(`课程 ID ${courseId} 教师指定了位置信息，将提交位置信息`)
+        // 教师指定了位置信息
+        let res = await axios.get(getLocationSignPath(activeId, locationInfo.address, locationInfo.latitude, locationInfo.longitude), {
             headers: {
-                cookie: account.cookie
+                cookie: account.cookie,
+                'User-Agent': MOBILE_AGENT
             }
         })
+        while(res.data === 'validate') {
+            console.warn('validate了！！！，重新签到')
+            await handleCheckIfValidate(activeId, account)
+            res = await axios.get(getLocationSignPath(activeId, locationInfo.address, locationInfo.latitude, locationInfo.longitude), {
+                headers: {
+                    cookie: account.cookie,
+                    'User-Agent': MOBILE_AGENT
+                }
+            })
+        }
+        return res.data
     } else {
+        // 教师未指定位置信息
         console.warn(`课程 ID ${courseId} 没有设置位置信息，将不提交位置信息`)
-        return (await axios.get(getLocationSignPath(activeId, account.uid), {
+        let res = await axios.get(getLocationSignPath(activeId), {
             headers: {
-                cookie: account.cookie
+                cookie: account.cookie,
+                'User-Agent': MOBILE_AGENT
             }
-        })).data
+        })
+        while (res.data === 'validate') {
+            console.warn('validate了！！！，重新签到')
+            await handleCheckIfValidate(activeId, account)
+            res = await axios.get(getLocationSignPath(activeId), {
+                headers: {
+                    cookie: account.cookie,
+                    'User-Agent': MOBILE_AGENT
+                }
+            })
+        }
         // `\n警告：课程 ID ${courseId} 没有设置位置信息，将不提交位置信息`
+        return res.data
     }
-
-
 }

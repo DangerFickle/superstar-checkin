@@ -5,8 +5,6 @@ import axios from 'axios'
 import decodeQrCode from '../utils/decodeQrCode'
 import handlerQrcodeSign from './handleQrcodeCheckin'
 import accountsManager from '../utils/accountsManager'
-import getCheckinDetail from '../requests/getCheckinDetail'
-import handleCheckin from './handleCheckin'
 import CheckinInfo from "../types/CheckinInfo";
 
 export default (bot: Client) => bot.on('message.group', async data => {

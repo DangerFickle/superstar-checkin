@@ -62,7 +62,7 @@ window.WebIM.conn.listen({
         warn('IM 协议连接关闭')
     },
     onTextMessage: async function (message) {
-        // info('IM 协议收到文本消息', JSON.stringify(message))
+        info('IM 协议收到文本消息', JSON.stringify(message))
         await handleEasemobMessage(message, account.cookie)
     },
     onEmojiMessage: function (message) {

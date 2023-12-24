@@ -1,7 +1,10 @@
 export default interface GeoLocation {
+    clazzid: number
     courseId: number | string,
-    lat: number,
-    lon: number,
+    activeid: number,
+    latitude: number,
+    longitude: number,
+    locationrange: string
     address: string
     onlyOnWeekdays?: Array<number>
 }

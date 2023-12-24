@@ -1,6 +1,7 @@
 import * as db from '../providers/db'
 import {genQrcodeCheckinParams} from '../utils/genCheckinParams'
 import AccountMetaData from '../types/AccountMetaData'
+import {pushQMsg} from "../providers/bot";
 
 export default async (activeId: string, enc: string, account: AccountMetaData) => {
     const params = genQrcodeCheckinParams({
@@ -8,8 +9,8 @@ export default async (activeId: string, enc: string, account: AccountMetaData) =
         name: account.name,
         activeId, enc,
     })
-    console.log(`[${account.name}] 执行二维码签到->handleQrcodeCheckin.ts`)
+    pushQMsg('暂不支持二维码签到')
     // 执行二维码签到
 
-    return 'success'
+    return '暂不支持二维码签到'
 }

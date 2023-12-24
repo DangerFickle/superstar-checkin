@@ -12,25 +12,12 @@ import {error} from "../utils/log";
 export default async (aid: string, classId: string, courseId: number, accountMeta: AccountMetaData, checkinInfo: CheckinInfo) => {
     const signCode = await getSignCode(aid, classId, courseId, accountMeta)
     // 预签到
-    try {
-        await handlePreSign(accountMeta.cookie, aid)
-    } catch (e) {
-        error('预签到失败', e)
-    }
+    await handlePreSign(aid, accountMeta.cookie)
 
-    try {
-        await handleAnalysis(aid, accountMeta.cookie)
-    } catch (e) {
-        error('handleAnalysis失败', e)
-    }
+    await handleAnalysis(aid, accountMeta.cookie)
 
     // 检查签到码
-    try {
-        await handleCheckCode(aid, signCode, accountMeta.cookie)
-    } catch (e) {
-        error('签到码无效')
-    }
-
+    await handleCheckCode(aid, signCode, accountMeta.cookie)
 
     // checkIfValidate
     await handleCheckIfValidate(aid, accountMeta)

@@ -1,6 +1,4 @@
 // 登录接口
-import {string} from "yaml/dist/schema/common/string";
-
 export function getLoginPath(username: string, password: string): string {
     return `https://passport2-api.chaoxing.com/v11/loginregister?code=${password}&cx_xxt_passport=json&uname=${username}&loginType=1&roleSelect=true`
 }
@@ -15,14 +13,24 @@ export function getAvtarImgPath(uid: string): string {
     return `http://photo.chaoxing.com/p/${uid}_80`
 }
 
+// 获取签到后的图片
+export function getSignPhotoPath(title: string): string {
+    return `https://p.ananas.chaoxing.com/star3/origin/${title}.jpg`
+}
+
+// 获取此次签到的签到人员信息
+export function getSignPersonPath(activeId: string, classId: string): string {
+    return `https://mobilelearn.chaoxing.com/widget/sign/pcTeaSignController/getAttendList?activeId=${activeId}&appType=15&classId=${classId}&fid=0`
+}
+
 // 查询所有活动
-export function gatActiveTaskListPath(courseId: string, classId: string, uid: string, cpi: string): string {
+export function gatActiveTaskListPath(courseId: number, classId: string, uid: number, cpi: string): string {
     return `https://mobilelearn.chaoxing.com/ppt/activeAPI/taskactivelist?courseId=${courseId}&classId=${classId}&uid=${uid}&cpi=${cpi}`
 }
 
 // 获取签到类型
 export function getSignType(activeId: string): string {
-    return `https://mobilelearn.chaoxing.com/newsign/signDetail?activePrimaryId=$activeId&type=1`
+    return `https://mobilelearn.chaoxing.com/newsign/signDetail?activePrimaryId=${activeId}&type=1`
 }
 
 // 获取签到码
@@ -44,27 +52,34 @@ export function getNormalSignPath(
     return `https://mobilelearn.chaoxing.com/widget/sign/pcStuSignController/signIn?courseId=${courseId}&classId=${classId}&activeId=${aid}&signCode=${signCode}&validate=`
 }
 
-// 获取位置签到url
+// 位置签到url
 export function getLocationSignPath(
     aid: string,
-    uid: number,
-    address?: string,
-    lat?: number,
-    long?: number,
+    address: string = '',
+    latitude: number | string = '',
+    longitude: number | string = '',
+    uid?: number
 ): string {
-    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?address=${address}&activeId=${aid}&uid=${uid}&clientip=0.0.0.0&latitude=${lat}&longitude=${long}&fid=&appType=15&ifTiJiao=1`
+    // 将address转换为url编码
+    address = encodeURIComponent(address).toString()
+    // &uid=${uid}
+    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?address=${address}&activeId=${aid}&clientip=0.0.0.0&latitude=${latitude}&longitude=${longitude}&fid=&appType=15&ifTiJiao=1`
 }
 
+// 获取上传图片时需要的token
 export function getUploadToken(): string {
     return "https://pan-yz.chaoxing.com/api/token/uservalid"
 }
 
+// 上传图片, 还需要传入 (formData --> 两个字段为 file, puid)
 export function getUploadImagePath(token: string): string {
     return `https://pan-yz.chaoxing.com/upload?_token=${token}`
 }
 
-export function getSignWithPhoto(aid: string, uid: string, objectId: string): string {
-    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?activeId=${aid}&uid=${uid}&appType=15&fid=0&objectId=${objectId}`
+// 图片签到
+export function getSignWithPhoto(aid: string, objectId: string, uid?: number): string {
+    // &uid=${uid}
+    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?activeId=${aid}&appType=15&fid=0&objectId=${objectId}`
 }
 
 export function getWorkEncPath(courseId: string, classId: string, cpi: string): string {

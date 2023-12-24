@@ -6,6 +6,7 @@ import {error} from '../utils/log'
 let bot: Client
 
 export const loginBot = () => new Promise<any>(resolve => {
+  if (config.bot.disabled === true) return resolve(0)
   if (config.bot.uin === 'disabled') return resolve(0)
 
   if (config.bot.qrlogin === true) {
@@ -47,6 +48,7 @@ export const loginBot = () => new Promise<any>(resolve => {
 })
 
 export const pushQMsg = async (message: Sendable) => {
+  if (config.bot.disabled === true) return
   if (config.bot.uin === 'disabled') return
   try {
     for (const group of config.bot.notifyGroups) {
@@ -58,6 +60,7 @@ export const pushQMsg = async (message: Sendable) => {
 }
 
 export const pushQMsgToFirstGroup = async (message: Sendable) => {
+  if (config.bot.disabled === true) return
   if (config.bot.uin === 'disabled') return
   try {
     await bot.pickGroup(config.bot.notifyGroups[0]).sendMsg(message)

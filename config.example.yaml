@@ -1,4 +1,5 @@
 bot:
+  disabled: false # 禁用机器人组件，禁用后二维码签到也没有入口了
   uin: # qq机器人的qq号，或者 `disabled` 可以禁用机器人组件。禁用的话，二维码签到也没有入口了
   qrlogin: true # 使用二维码登录
   platform: 5 # Android = 1, aPad = 2, Watch = 3, iMac = 4, iPad = 5,
@@ -37,3 +38,5 @@ accounts:
     password: # 学习通密码
   - username: # 学习通登录名（多个帐号）
     password: # 学习通密码
+# 图片签到时当已签到人员大于多少时自动签到, 为0时不提交图片
+alreadySignedCount: 0
