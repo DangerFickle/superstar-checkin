@@ -17,14 +17,14 @@ import config from "../providers/config";
  */
 export default async (aid: string, classId: string, courseId: number, accountMeta: AccountMetaData, checkinInfo: CheckinInfo) => {
     let objectId = ''
-    if (config.alreadySignedCount !== 0) {
+    if (config.checkinTiming.photoSignedCount !== 0) {
         // 上传图片获取objectId， 获取已经签到人员的图片
         let yiqianList = await getAlreadSignList(aid, classId, accountMeta)
-        // 获取随机数 从 3 到 yiqianList.length - 1
-        const random = Math.floor(Math.random() * (yiqianList.length - 3)) + 3
+        // 获取随机数 从 0 到 yiqianList.length - 1
+        const random = Math.floor(Math.random() * (yiqianList.length - 1))
         objectId = yiqianList[random].title
-        console.log('random --->', random)
-        console.log('objectId --->', objectId)
+        // console.log('random --->', random)
+        // console.log('objectId --->', objectId)
     }
 
     // 预签

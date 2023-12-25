@@ -4,7 +4,7 @@ import axios from "axios";
 import {info} from "../utils/log";
 import config from "../providers/config";
 
-// 每隔三秒轮询，直到获取到已经签到的人员列表
+// 每隔三秒轮询，获取已经签到的人员列表
 export default async (aid: string, classId: string, accountMeta: AccountMetaData): Promise<Array<{ title: string }>> => {
     return new Promise(resolve => {
         const timer = setInterval(async () => {
@@ -15,7 +15,7 @@ export default async (aid: string, classId: string, accountMeta: AccountMetaData
                 }
             })).data.data
             let yiqianList = alreadySignReq.yiqianList
-            if (yiqianList.length !== 0 && yiqianList.length > config.alreadySignedCount) {
+            if (yiqianList.length !== 0 && yiqianList.length >= config.checkinTiming.photoSignedCount) {
                 clearInterval(timer)
                 resolve(yiqianList)
             }

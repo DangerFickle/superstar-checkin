@@ -18,11 +18,14 @@ export default async (aid: string, classId: string, courseId: number, checkinInf
             const accountMeta = await accountsManager.getAccountData(account.username)
             res += '\n' + accountMeta.name + '：'
             info('开始签到', account.username)
+
             info('等待其他人签到中......')
             pushQMsg('等待其他人签到中......')
-
             // 等待其他人签到，防止老师还没公布签到码就签到了
-            await handleWaitSigned(aid, classId, accountMeta)
+            const waitRes = await handleWaitSigned(aid, classId, accountMeta)
+            if (!waitRes) {
+                return `自动签到：等待其他人签到超时，不进行自动签到`
+            }
 
             let ret = ''
             switch (checkinInfo.type) {

@@ -26,7 +26,11 @@ interface Config {
         token: string;
         url: string
     }
-    alreadySignedCount: number;
+    checkinTiming: {
+        waitSignedOutTime: number
+        waitSignedCount: number
+        photoSignedCount: number
+    }
 }
 
 export default YAML.parse(fs.readFileSync(process.env.CONFIG_FILE || 'config.yaml', 'utf-8')) as Config
