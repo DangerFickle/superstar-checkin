@@ -6,7 +6,7 @@
     "start": "node build/index.js",
     "start-docker": "node index.js",
     "dev": "ts-node index.ts",
-    "build": "tsc && copy -a --reflink=auto --remove-destination ./sdk ./build/"
+    "build": "tsc && cp -a --reflink=auto --remove-destination ./sdk ./build/"
   },
   "bin": "build/index.js",
   "files": [

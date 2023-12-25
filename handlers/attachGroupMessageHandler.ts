@@ -6,6 +6,8 @@ import decodeQrCode from '../utils/decodeQrCode'
 import handlerQrcodeSign from './handleQrcodeCheckin'
 import accountsManager from '../utils/accountsManager'
 import CheckinInfo from "../types/CheckinInfo";
+import handleCheckin from "./handleCheckin";
+import getCheckinDetail from "../requests/getCheckinDetail";
 
 export default (bot: Client) => bot.on('message.group', async data => {
     //检查来源
@@ -62,40 +64,41 @@ export default (bot: Client) => bot.on('message.group', async data => {
             case 'checkin':
                 if (!args.length) {
                     data.reply('请输入签到参数，参数格式为：\n' +
-                        '签到 {aid} [enc(二维码签到时)|courseId(位置签到时。不需要提交位置可以不填)]')
+                        '签到 {aid} {courseId} {classId}')
                     return
                 }
                 const aid = args[0]
+                const courseId =  Number(args[1])
+                const classId =  args[2]
                 const meta = await accountsManager.getAccountData(config.accounts[0].username)
 
-                // const checkinInfo = await getCheckinDetail(meta.cookie, aid, courseId, classId)
-                const checkinInfo: CheckinInfo = {type: 'normal'}
+                const checkinInfo = await getCheckinDetail(meta.cookie, aid)
+                // if (checkinInfo.type === 'qr') {
+                    // if (args.length < 2) {
+                    //     data.reply('二维码签到需要指定 enc')
+                    //     return
+                    // }
+                    // const enc = args[1]
+                    // data.reply(`aid: ${aid}\nenc: ${enc}\n正在执行签到...`)
+                    // let res = '自动签到：'
+                    // for (const account of config.accounts) {
+                    //     const accountMeta = await accountsManager.getAccountData(account.username)
+                    //     res += '\n' + accountMeta.name + '：'
+                    //     info('开始签到', account.username)
+                    //     const ret = await handlerQrcodeSign(aid, enc, accountMeta)
+                    //     switch (ret) {
+                    //         case 'success': res += '成功'; break;
+                    //         default: res += ret; break;
+                    //     }
+                    //     info('签到结束', account.username, ret)
+                    // }
+                    // data.reply(res)
+                // }
+                // else{
+                // }
 
-                if (checkinInfo.type === 'qr') {
-                    if (args.length < 2) {
-                        data.reply('二维码签到需要指定 enc')
-                        return
-                    }
-                    const enc = args[1]
-                    data.reply(`aid: ${aid}\nenc: ${enc}\n正在执行签到...`)
-                    let res = '自动签到：'
-                    for (const account of config.accounts) {
-                        const accountMeta = await accountsManager.getAccountData(account.username)
-                        res += '\n' + accountMeta.name + '：'
-                        info('开始签到', account.username)
-                        const ret = await handlerQrcodeSign(aid, enc, accountMeta)
-                        switch (ret) {
-                            case 'success': res += '成功'; break;
-                            default: res += ret; break;
-                        }
-                        info('签到结束', account.username, ret)
-                    }
-                    data.reply(res)
-                }
-                else{
-                    const courseId = args.length > 1 ? Number(args[1]) : 0
-                    // data.reply(await handleCheckin(aid, classId, courseId, checkinInfo))
-                }
+                data.reply(await handleCheckin(aid, classId, courseId, checkinInfo))
+
                 break
         }
     }

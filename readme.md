@@ -11,7 +11,9 @@
 
 - 包含 QQ 机器人，实时向指定的群通知程序状态
 
-- 支持使用任何一张二维码进行二维码签到，即使二维码已经过期（直接在指定群内发送二维码即可）
+- 等待其他人签到后再签到，防止秒签
+
+- 暂不支持二维码签到
 
 ## 功能（已实现部分）
 
@@ -21,10 +23,6 @@
 
 - [x] 在群内发送提醒并自动签到
 
-- [x] 通过 QQ 机器人接收群内发送的二维码实现二维码签到
-
-  本功能只需要一张已过期的二维码就可以
-
 - [x] 支持多用户共同签到
 
 - [x] 根据课程设置签到经纬度以及位置名称
@@ -33,35 +31,25 @@
 
 - [x] 支持通过周次设定签到的地址，适用于实验课和正课在不同地点的情况
 
+- [x] 支持设置等待其他人签到后再执行签到，防止老师还没发布签到码就秒签了
+
+- [x] 支持设置等待其他人签到超时时间，单位秒
+
+- [x] 支持设置等待已签人员时，已签人员大于等于多少时才自动签到，为0时有人签到了就直接签到
+
+- [x] 支持图片签到，自行设置当多少人签到后随机抽取已签人员的图片上传
+
 - [x] 手动签到
 
-  机器人命令：`签到 {aid} [enc(二维码签到时)|courseId(位置签到时。不需要提交位置可以不填)]`
+  机器人命令：`签到 {aid} {courseId} {classId}`
 
 - [x] Docker 和 Docker Compose 部署
 
 - [ ] 通过 REST API 设置课程信息
 
+- [ ] 通过 QQ 机器人接收群内发送的二维码实现二维码签到
+
 ## 部署方法
-
-### 使用 Docker Compose 部署
-
-1. 下载 [docker-compose.yaml](https://github.com/Clansty/superstar-checkin/raw/main/docker-compose.yaml) 和 [config.example.yaml](https://github.com/Clansty/superstar-checkin/raw/main/config.example.yaml)，将它们放在一个文件夹中
-2. 将 `config.example.yaml` 重命名为 `config.yaml`
-3. 修改 `config.yaml` 中的配置项
-4. `docker compose up`
-
-### 使用 NixOS 部署
-
-1. 在你的系统 Flake 中，引入本项目
-
-    ```nix
-    inputs.superstar-checkin.url = "github:clansty/superstar-checkin";
-    ```
-
-2. 在系统配置的某个 Module 中填写配置项（[查看示例](./config.example.nix)）
-3. `nixos-rebuild switch`
-
-可以使用 `systemctl status superstar-checkin` 来查看状态
 
 ### 手动部署
 
@@ -71,7 +59,7 @@
 4. `yarn build`
 5. `yarn start`
 
-提示：机器人使用的账号必须已经在 [oicq](https://github.com/takayama-lily/oicq) 框架上登录过
+提示：机器人建议使用账号密码登陆
 
 ## 限制
 

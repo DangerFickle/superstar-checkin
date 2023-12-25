@@ -27,7 +27,7 @@ export default async (message: ImMessageCheckin, cookie: string) => {
         const courseName = String(message.ext.attachment.att_chat_course.courseInfo.coursename)
         const courseId = Number(message.ext.attachment.att_chat_course.courseInfo.courseid)
         const classId = String(message.ext.attachment.att_chat_course.courseInfo.classid)
-        if (config.ignoreCourses && config.ignoreCourses.includes(courseId)) return
+        // if (config.ignoreCourses && config.ignoreCourses.includes(courseId)) return
         if (!aid) {
             warn('处理 IM 消息时出现异常，找不到 aid')
             return
@@ -50,15 +50,23 @@ export default async (message: ImMessageCheckin, cookie: string) => {
                 // const sleepTime = getRandomIntInclusive(20, 35)
                 if (checkinInfo.type === 'qr') {
                     info('收到二维码签到')
-                    pushQMsg(`收到 ${courseName} 的二维码签到，aid 为 ${aid}，需要提供一张二维码`)
+                    pushQMsg(`收到 ${courseName} 的二维码签到，aid 为 ${aid}，courseId:${courseId}，classId 为 ${classId}\n需要提供一张二维码`)
                 } else {
                     info('收到', checkinInfo.type, '类型签到')
-                    let messageToSend = `收到 ${courseName} 的签到\n类型：${checkinInfo.type}\naid:${aid}\n将等待其他人签到后自动签到`
+                    let messageToSend = `收到 ${courseName} 的签到\n类型：${checkinInfo.type}\naid:${aid}\ncourseId:${courseId}\nclassId:${classId}`
                     // if (checkinInfo.type === 'location') {
                     //     messageToSend += `\n这是位置范围签到\n地址：${checkinInfo.location.address}\n精度：${checkinInfo.location.range}\n经纬度：${checkinInfo.location.lon},${checkinInfo.location.lat}`
                     // }
-                    pushQMsg(messageToSend)
-                    pushQMsg(await handleSign(aid, classId, courseId, checkinInfo))
+
+                    // 被忽略的课程不会自动签到
+                    if (config.ignoreCourses && config.ignoreCourses.includes(courseId)) {
+                        messageToSend += '\n这门课程已被忽略，不会自动签到'
+                        pushQMsg(messageToSend)
+                    } else {
+                        messageToSend += '\n将等待其他人签到后自动签到'
+                        pushQMsg(messageToSend)
+                        pushQMsg(await handleSign(aid, classId, courseId, checkinInfo))
+                    }
                 }
                 break
             default:

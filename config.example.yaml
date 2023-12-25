@@ -14,8 +14,8 @@ bot:
 ocr:
   secretId: # 腾讯云 ocr 识别二维码的密钥 ID
   secretKey: # 腾讯云 ocr 识别二维码的密钥
-ignoreCourses:
-  - # 屏蔽的课程 ID，这些课程的签到和其他活动信息将被忽略
+ignoreCourses: # 这些课程的签到和其他活动信息不会被忽略，但是不会自动签到，可以选择使用机器人指令手动签到
+  - # 屏蔽的课程 ID
 geoLocations:
   - courseId: # 这门课程的 ID，可以在电脑上打开课程页面，地址栏中将会显示课程 ID, 设置为 * 的项将作为找不到位置信息的课程的默认值
     lat: # 经度
