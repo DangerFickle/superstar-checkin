@@ -284,4 +284,5 @@ config.yaml
 build
 result
 .direnv
-data/*
+/data/*
+!/data/
