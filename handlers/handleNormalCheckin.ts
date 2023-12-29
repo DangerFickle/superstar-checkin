@@ -15,8 +15,5 @@ export default async (aid: string, classId: string, courseId: number, accountMet
             cookie: accountMeta.cookie
         }
     })
-    if (!res) {
-
-    }
     return 'success'
 }

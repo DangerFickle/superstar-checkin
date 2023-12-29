@@ -5,7 +5,7 @@ import config from '../providers/config'
 import handleSign from './handleCheckin'
 import getCheckinDetail from '../requests/getCheckinDetail'
 import getRandomIntInclusive from '../utils/getRandomIntInclusive'
-import getAlreadSignList from "./getAlreadSignList";
+import getAlreadSignList from "../requests/getAlreadSignList";
 
 /**
  * 处理环信消息
@@ -61,9 +61,11 @@ export default async (message: ImMessageCheckin, cookie: string) => {
                     // 被忽略的课程不会自动签到
                     if (config.ignoreCourses && config.ignoreCourses.includes(courseId)) {
                         messageToSend += '\n这门课程已被忽略，不会自动签到'
+                        info('这门课程已被忽略，不会自动签到')
                         pushQMsg(messageToSend)
                     } else {
                         messageToSend += '\n将等待其他人签到后自动签到'
+                        info('将等待其他人签到后自动签到')
                         pushQMsg(messageToSend)
                         pushQMsg(await handleSign(aid, classId, courseId, checkinInfo))
                     }

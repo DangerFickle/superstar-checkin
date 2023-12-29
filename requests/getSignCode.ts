@@ -1,4 +1,4 @@
-import {getSignCodePath} from "../requests/URL";
+import {getSignCodePath} from "./URL";
 import AccountMetaData from "../types/AccountMetaData";
 import cheerio from "cheerio";
 import axios from "axios";

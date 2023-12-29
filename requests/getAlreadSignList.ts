@@ -1,5 +1,5 @@
 import AccountMetaData from "../types/AccountMetaData";
-import {getSignPersonPath} from "../requests/URL";
+import {getSignPersonPath} from "./URL";
 import axios from "axios";
 import {info} from "../utils/log";
 import config from "../providers/config";
@@ -8,7 +8,7 @@ import config from "../providers/config";
 export default async (aid: string, classId: string, accountMeta: AccountMetaData): Promise<Array<{ title: string }>> => {
     return new Promise(resolve => {
         const timer = setInterval(async () => {
-            info('查询已签人员轮询中...')
+            info('拍照签到查询已签人员轮询中...')
             const alreadySignReq = (await axios.get(getSignPersonPath(aid, classId), {
                 headers: {
                     cookie: accountMeta.cookie
