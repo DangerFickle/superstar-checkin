@@ -9,21 +9,21 @@ import handleCheckIfValidate from "./handleCheckIfValidate";
 import axios from "axios";
 import {error} from "../utils/log";
 
-export default async (aid: string, classId: string, courseId: number, accountMeta: AccountMetaData, checkinInfo: CheckinInfo) => {
-    const signCode = await getSignCode(aid, classId, courseId, accountMeta)
+export default async (checkinInfo: CheckinInfo, accountMeta: AccountMetaData) => {
+    const signCode = await getSignCode(checkinInfo.activeId, checkinInfo.classId, checkinInfo.courseId, accountMeta)
     // 预签到
-    await handlePreSign(aid, accountMeta.cookie)
+    await handlePreSign(checkinInfo, accountMeta.cookie)
 
-    await handleAnalysis(aid, accountMeta.cookie)
+    await handleAnalysis(checkinInfo, accountMeta.cookie)
 
     // 检查签到码
-    await handleCheckCode(aid, signCode, accountMeta.cookie)
+    await handleCheckCode(checkinInfo.activeId, signCode, accountMeta.cookie)
 
     // checkIfValidate
-    await handleCheckIfValidate(aid, accountMeta)
+    await handleCheckIfValidate(checkinInfo, accountMeta)
 
     // 开始签到
-    const signCodePath = getNormalSignPath(courseId, classId, aid, signCode)
+    const signCodePath = getNormalSignPath(checkinInfo.courseId, checkinInfo.classId, checkinInfo.activeId, signCode)
     await axios.get<string>(signCodePath, {
         headers: {
             cookie: accountMeta.cookie

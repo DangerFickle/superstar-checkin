@@ -41,7 +41,7 @@
 
 - [x] 手动签到
 
-  机器人命令：`签到 {aid} {courseId} {classId}`
+  机器人命令：`签到 {activeId}`，`关闭自签`（自动签到关闭后仍能通过机器人指令手动签到），`开启自签`
 
 - [x] Docker 和 Docker Compose 部署
 

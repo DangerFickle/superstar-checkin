@@ -38,23 +38,23 @@ export function getSignCodePath(activeId: string, classId: string, courseId: num
     return `https://mobilelearn.chaoxing.com/widget/sign/pcTeaSignController/endSign?activeId=${activeId}&classId=${classId}&courseId=${courseId}&isTeacherViewOpen=1`
 }
 
-export function getSignWithCameraPath(aid: string, location: string = ""): string {
-    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?activeId=${aid}&location=${location}`
+export function getSignWithCameraPath(activeId: string, location: string = ""): string {
+    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?activeId=${activeId}&location=${location}`
 }
 
 // 普通签到 和 签到码签到 和 手势签到三者通用
 export function getNormalSignPath(
     courseId: number,
     classId: string,
-    aid: string,
+    activeId: string,
     signCode: string = ""
 ): string {
-    return `https://mobilelearn.chaoxing.com/widget/sign/pcStuSignController/signIn?courseId=${courseId}&classId=${classId}&activeId=${aid}&signCode=${signCode}&validate=`
+    return `https://mobilelearn.chaoxing.com/widget/sign/pcStuSignController/signIn?courseId=${courseId}&classId=${classId}&activeId=${activeId}&signCode=${signCode}&validate=`
 }
 
 // 位置签到url
 export function getLocationSignPath(
-    aid: string,
+    activeId: string,
     address: string = '',
     latitude: number | string = '',
     longitude: number | string = '',
@@ -63,7 +63,7 @@ export function getLocationSignPath(
     // 将address转换为url编码
     address = encodeURIComponent(address).toString()
     // &uid=${uid}
-    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?address=${address}&activeId=${aid}&clientip=0.0.0.0&latitude=${latitude}&longitude=${longitude}&fid=&appType=15&ifTiJiao=1`
+    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?address=${address}&activeId=${activeId}&clientip=0.0.0.0&latitude=${latitude}&longitude=${longitude}&fid=&appType=15&ifTiJiao=1`
 }
 
 // 获取上传图片时需要的token
@@ -77,9 +77,9 @@ export function getUploadImagePath(token: string): string {
 }
 
 // 图片签到
-export function getSignWithPhoto(aid: string, objectId: string, uid?: number): string {
+export function getSignWithPhoto(activeId: string, objectId: string, uid?: number): string {
     // &uid=${uid}
-    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?activeId=${aid}&appType=15&fid=0&objectId=${objectId}`
+    return `https://mobilelearn.chaoxing.com/pptSign/stuSignajax?activeId=${activeId}&appType=15&fid=0&objectId=${objectId}`
 }
 
 export function getWorkEncPath(courseId: string, classId: string, cpi: string): string {
@@ -111,8 +111,8 @@ export function getLoginWithSmsUrl(): string {
     return "https://passport2-api.chaoxing.com/v11/loginregister?cx_xxt_passport=json"
 }
 
-export function getAnalysisPath(aid: string): string {
-    return `https://mobilelearn.chaoxing.com/pptSign/analysis?DB_STRATEGY=RANDOM&aid=${aid}&vs=1`
+export function getAnalysisPath(activeId: string): string {
+    return `https://mobilelearn.chaoxing.com/pptSign/analysis?DB_STRATEGY=RANDOM&aid=${activeId}&vs=1`
 }
 
 export function getAnalysis2Path(analysis2Code: string): string {
@@ -120,8 +120,8 @@ export function getAnalysis2Path(analysis2Code: string): string {
 }
 
 
-export function checkSignCodePath(aid: string, signCode: string): string {
-    return `https://mobilelearn.chaoxing.com/widget/sign/pcStuSignController/checkSignCode?activeId=${aid}&signCode=${signCode}`
+export function checkSignCodePath(activeId: string, signCode: string): string {
+    return `https://mobilelearn.chaoxing.com/widget/sign/pcStuSignController/checkSignCode?activeId=${activeId}&signCode=${signCode}`
 }
 
 

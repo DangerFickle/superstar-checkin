@@ -3,23 +3,24 @@ import {getSignPersonPath} from "../requests/URL";
 import axios from "axios";
 import {info} from "../utils/log";
 import config from "../providers/config";
+import CheckinInfo from "../types/CheckinInfo";
 
 // 每隔三秒轮询，获取已经签到的人员列表
-export default async (aid: string, classId: string, accountMeta: AccountMetaData): Promise<boolean> => {
+export default async (checkinInfo: CheckinInfo, accountMeta: AccountMetaData): Promise<boolean> => {
     return new Promise(resolve => {
         // 记录时间，如果超过3分钟还没有人签到，则取消签到流程
         let timeoutTimer;
-        if (config.checkinTiming.waitSignedOutTime !== 0) {
+        if (config.checkinTiming.waitSignedTimeout !== 0) {
             timeoutTimer = setTimeout(() => {
                 info('等待其他人签到超时，不进行自动签到')
                 clearInterval(timer)
                 resolve(false)
-            }, 1000 * config.checkinTiming.waitSignedOutTime)
+            }, 1000 * config.checkinTiming.waitSignedTimeout)
         }
 
         const timer = setInterval(async () => {
             info('查询已签人员轮询中...')
-            const alreadySignReq = (await axios.get(getSignPersonPath(aid, classId), {
+            const alreadySignReq = (await axios.get(getSignPersonPath(checkinInfo.activeId, checkinInfo.classId), {
                 headers: {
                     cookie: accountMeta.cookie
                 }

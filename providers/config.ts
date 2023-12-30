@@ -4,6 +4,9 @@ import Account from '../types/Account'
 import GeoLocation from '../types/GeoLocation'
 
 interface Config {
+    system: {
+        autoSign: boolean
+    },
     bot: {
         disabled: boolean
         uin: number | 'disabled';
@@ -27,7 +30,7 @@ interface Config {
         url: string
     }
     checkinTiming: {
-        waitSignedOutTime: number
+        waitSignedTimeout: number
         waitSignedCount: number
         photoSignedCount: number
     }

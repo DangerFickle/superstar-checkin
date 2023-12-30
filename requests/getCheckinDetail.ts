@@ -39,7 +39,8 @@ export default async (cookie: string, activeId: number | string): Promise<Checki
         }
 
         return {
-            type
+            type,
+            endTime: ret.data.data.endTime ? ret.data.data.endTime : ret.data.data.endtime,
         }
     }
     const err = '查询签到详情时遇到问题，activeId: ' + activeId

@@ -9,6 +9,7 @@ import handleAnalysis from "./handleAnalysis";
 import getLocation from "../requests/getLocation";
 import handleCheckIfValidate from "./handleCheckIfValidate";
 import {MOBILE_AGENT} from "../constants";
+import CheckinInfo from "../types/CheckinInfo";
 
 const inferCourseGeoInfo = (geoLocations: Array<GeoLocation>, courseId: number) => {
     const weekDay = new Date().getDay()
@@ -26,34 +27,34 @@ const inferCourseGeoInfo = (geoLocations: Array<GeoLocation>, courseId: number) 
     }
 }
 
-export default async (activeId: string, courseId: number, classId: string, account: AccountMetaData) => {
+export default async (checkinInfo: CheckinInfo, account: AccountMetaData) => {
 
     // 配置文件中配置了该课程的配置信息，就用配置文件中的，否则就用教师指定的
-    let locationInfo: GeoLocation = inferCourseGeoInfo(config.geoLocations, courseId)
+    let locationInfo: GeoLocation = inferCourseGeoInfo(config.geoLocations, checkinInfo.courseId)
 
 
     if (!locationInfo) {
-        locationInfo = await getLocation(activeId, courseId, classId, account)
+        locationInfo = await getLocation(checkinInfo, account)
     }
 
     // 预签到
-    await handlePreSign(activeId, account.cookie)
+    await handlePreSign(checkinInfo, account.cookie)
 
     // 分析
-    await handleAnalysis(activeId, account.cookie)
+    await handleAnalysis(checkinInfo, account.cookie)
 
     // checkIfValidate
-    await handleCheckIfValidate(activeId, account)
+    await handleCheckIfValidate(checkinInfo, account)
 
     // 位置签到需要设置 User-Agent 为手机端的， 否则签到失败
     if (locationInfo) {
-        info(`课程 ID ${courseId} 教师指定了位置信息，将提交位置信息`)
+        info(`课程 ID ${checkinInfo.courseId} 教师指定了位置信息，将提交位置信息`)
         // 教师指定了位置信息
         let res
         let times = 0
         while (times < 3) {
-            await handleCheckIfValidate(activeId, account)
-            res = await axios.get(getLocationSignPath(activeId, locationInfo.address, locationInfo.latitude, locationInfo.longitude), {
+            await handleCheckIfValidate(checkinInfo, account)
+            res = await axios.get(getLocationSignPath(checkinInfo.activeId, locationInfo.address, locationInfo.latitude, locationInfo.longitude), {
                 headers: {
                     cookie: account.cookie,
                     'User-Agent': MOBILE_AGENT
@@ -66,18 +67,18 @@ export default async (activeId: string, courseId: number, classId: string, accou
             times++
         }
         if (res.data === 'validate') {
-            warn(`课程 ID ${courseId} 教师指定了位置信息，将提交位置信息，但是签到失败了`)
+            warn(`课程 ID ${checkinInfo.courseId} 教师指定了位置信息，将提交位置信息，但是签到失败了`)
             res.data = '签到失败'
         }
         return res.data
     } else {
         // 教师未指定位置信息
-        info(`课程 ID ${courseId} 没有设置位置信息，将不提交位置信息`)
+        info(`课程 ID ${checkinInfo.courseId} 没有设置位置信息，将不提交位置信息`)
         let res
         let times = 0
         while (times < 3) {
-            await handleCheckIfValidate(activeId, account)
-            res = await axios.get(getLocationSignPath(activeId), {
+            await handleCheckIfValidate(checkinInfo, account)
+            res = await axios.get(getLocationSignPath(checkinInfo.activeId), {
                 headers: {
                     cookie: account.cookie,
                     'User-Agent': MOBILE_AGENT
@@ -88,7 +89,7 @@ export default async (activeId: string, courseId: number, classId: string, accou
             times++
         }
         if (res.data === 'validate') {
-            warn(`课程 ID ${courseId} 没有设置位置信息，将不提交位置信息，但是签到失败了`)
+            warn(`课程 ID ${checkinInfo.courseId} 没有设置位置信息，将不提交位置信息，但是签到失败了`)
             res.data = '签到失败'
         }
         // `\n警告：课程 ID ${courseId} 没有设置位置信息，将不提交位置信息`

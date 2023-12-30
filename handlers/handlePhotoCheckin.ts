@@ -15,11 +15,11 @@ import {warn} from "../utils/log";
  * @Author DengChao
  * @Date 2023/12/24 21:30
  */
-export default async (aid: string, classId: string, courseId: number, accountMeta: AccountMetaData, checkinInfo: CheckinInfo) => {
+export default async (checkinInfo: CheckinInfo, accountMeta: AccountMetaData) => {
     let objectId = ''
     if (config.checkinTiming.photoSignedCount !== 0) {
         // 上传图片获取objectId， 获取已经签到人员的图片
-        let yiqianList = await getAlreadSignList(aid, classId, accountMeta)
+        let yiqianList = await getAlreadSignList(checkinInfo, accountMeta)
         // 获取随机数
         const random = Math.floor(Math.random() * (yiqianList.length - 10)) + 5
         objectId = yiqianList[random].title
@@ -28,20 +28,20 @@ export default async (aid: string, classId: string, courseId: number, accountMet
     }
 
     // 预签
-    await handlePreSign(aid, accountMeta.cookie)
+    await handlePreSign(checkinInfo, accountMeta.cookie)
 
     // 分析
-    await handleAnalysis(aid, accountMeta.cookie)
+    await handleAnalysis(checkinInfo, accountMeta.cookie)
 
     // checkIfValidate
-    await handleCheckIfValidate(aid, accountMeta)
+    await handleCheckIfValidate(checkinInfo, accountMeta)
     // 开始签到
     let res;
     let times = 0
     // 如果出现validate，重新签到，最多尝试三次
     while (times < 3) {
-        await handleCheckIfValidate(aid, accountMeta)
-        res = (await axios.get(getSignWithPhoto(aid, objectId), {
+        await handleCheckIfValidate(checkinInfo, accountMeta)
+        res = (await axios.get(getSignWithPhoto(checkinInfo.activeId, objectId), {
             headers: {
                 cookie: accountMeta.cookie,
             }

@@ -1,3 +1,5 @@
+system:
+  autoSign: true # 是否自动签到，关闭后不会自动签到，但可以使用机器人指令手动签到
 bot:
   disabled: false # 禁用机器人组件，禁用后二维码签到也没有入口了
   uin: # qq机器人的qq号，或者 `disabled` 可以禁用机器人组件。禁用的话，二维码签到也没有入口了
@@ -40,7 +42,7 @@ accounts:
     password: # 学习通密码
 checkinTiming:
   # 在等待已签人员时，超时时间默认一分钟，单位秒，为0时不超时
-  waitSignedOutTime: 60
+  waitSignedTimeout: 60
   # 在等待已签人员时，已签人员大于等于多少时才自动签到，为0时有人签到了就直接签到
   waitSignedCount: 0
   # 图片签到时, 已签到人员大于等于多少时自动提交图片, 为0时不提交图片

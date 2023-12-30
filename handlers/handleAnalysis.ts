@@ -1,9 +1,10 @@
 import {getAnalysis2Path, getAnalysisPath} from "../requests/URL";
 import axios from "axios";
+import CheckinInfo from "../types/CheckinInfo";
 
-export default async (aid: string, cookie: string) => {
+export default async (checkInfo: CheckinInfo, cookie: string) => {
     // 分析1
-    const analysis = await axios.get<string>(getAnalysisPath(aid), {
+    const analysis = await axios.get<string>(getAnalysisPath(checkInfo.activeId), {
         headers: {
             cookie
         }
